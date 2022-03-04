@@ -17,29 +17,52 @@ invoices.forEach(inv => {
 
 // console.log(invoices);
 
+const anchor = document.querySelector('a')!
+
+if(anchor) {
+    console.log(anchor.href)
+}
+
+console.log(anchor.href)
+
+const form = document.querySelector('.new-item-form') as HTMLFormElement;
+
+console.log(form.children)
 
 
+const type = document.querySelector('#type') as HTMLSelectElement
+const toFrom = document.querySelector('#tofrom') as HTMLInputElement
+const details = document.querySelector('#details') as HTMLInputElement
+const amount = document.querySelector('#amount') as HTMLInputElement
 
+form.addEventListener('submit', (e: Event) => {
+    e.preventDefault()
+    console.log(type.value, toFrom.value, details.value, amount.valueAsNumber)
+})
 
-// const anchor = document.querySelector('a')!
+//Interfaces
 
-// // if(anchor) {
-// //     console.log(anchor.href)
-// // }
+interface IsPerson {
+    name: string;
+    age: number;
+    speak(a: string): void;
+    spend(a: number): number;
+}
 
-// console.log(anchor.href)
+const me: IsPerson = {
+    name: 'mario',
+    age: 40,
+    speak(text: string): void {
+        console.log(text)
+    },
+    spend(amount: number): number {
+        console.log('I am going to buy', amount, 'of stuff')
+        return amount
+    }
+}
 
-// const form = document.querySelector('.new-item-form') as HTMLFormElement;
+const greetPerson = (person: IsPerson) => {
+    console.log('Hello', person.name)
+}
 
-// console.log(form.children)
-
-
-// const type = document.querySelector('#type') as HTMLSelectElement
-// const toFrom = document.querySelector('#tofrom') as HTMLInputElement
-// const details = document.querySelector('#details') as HTMLInputElement
-// const amount = document.querySelector('#amount') as HTMLInputElement
-
-// form.addEventListener('submit', (e: Event) => {
-//     e.preventDefault()
-//     console.log(type.value, toFrom.value, details.value, amount.valueAsNumber)
-// })
+greetPerson(me)
