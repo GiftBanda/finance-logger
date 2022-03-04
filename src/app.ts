@@ -1,34 +1,40 @@
-import { Invoice } from './classes/invoice.js'
+import { Invoice } from "./classes/invoice.js";
+import { Payment } from "./classes/Payment.js";
+import { HasFormatter } from "./interfaces/hasFormatter.js";
+import { ListTemplate } from "./classes/ListTemplate.js";
 
 //classes
 
-const invOne = new Invoice('mario', 'work on the mario website', 250);
-const invTwo = new Invoice('luigi', 'worked on the luigi website', 500);
+// const invOne = new Invoice('mario', 'work on the mario website', 250);
+// const invTwo = new Invoice('luigi', 'worked on the luigi website', 500);
 
 // console.log(invOne, invTwo);
 
-let invoices: Invoice[] = [];
-invoices.push(invOne);
-invoices.push(invTwo);
+// let invoices: Invoice[] = [];
+// invoices.push(invOne);
+// invoices.push(invTwo);
 
-invoices.forEach(inv => {
-    console.log(inv.client, inv.amount, inv.format());
-});
+// invoices.forEach(inv => {
+//     console.log(inv.client, inv.amount, inv.format());
+// });
 
 // console.log(invoices);
 
-const anchor = document.querySelector('a')!
+// const anchor = document.querySelector('a')!
 
-if(anchor) {
-    console.log(anchor.href)
-}
+// if(anchor) {
+//     console.log(anchor.href)
+// }
 
-console.log(anchor.href)
+// console.log(anchor.href)
+
+//List
+const ul = document.querySelector('ul')!
+const list = new ListTemplate(ul)
+
+console.log(list)
 
 const form = document.querySelector('.new-item-form') as HTMLFormElement;
-
-console.log(form.children)
-
 
 const type = document.querySelector('#type') as HTMLSelectElement
 const toFrom = document.querySelector('#tofrom') as HTMLInputElement
@@ -38,31 +44,16 @@ const amount = document.querySelector('#amount') as HTMLInputElement
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault()
     console.log(type.value, toFrom.value, details.value, amount.valueAsNumber)
-})
 
-//Interfaces
+    let doc: HasFormatter;
 
-interface IsPerson {
-    name: string;
-    age: number;
-    speak(a: string): void;
-    spend(a: number): number;
-}
+    if(type.value === 'invoice') {
+        doc = new Invoice(toFrom.value, details.value, amount.valueAsNumber)
 
-const me: IsPerson = {
-    name: 'mario',
-    age: 40,
-    speak(text: string): void {
-        console.log(text)
-    },
-    spend(amount: number): number {
-        console.log('I am going to buy', amount, 'of stuff')
-        return amount
+    }else {
+        doc = new Payment(toFrom.value, details.value, amount.valueAsNumber)
     }
-}
 
-const greetPerson = (person: IsPerson) => {
-    console.log('Hello', person.name)
-}
+    list.render(doc,'end', type.value)
 
-greetPerson(me)
+})
